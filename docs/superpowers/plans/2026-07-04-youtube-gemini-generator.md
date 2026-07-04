@@ -1812,16 +1812,19 @@ it('闹钟触发后清空', async () => {
 
 - [ ] **Step 5: 让集成测试的 env 带上我们的类型**
 
-`cloudflare:test` 的 `env` 默认是空接口 `ProvidedEnv`,需要用我们自定义的 `Env` 做模块增强,`env.CONTEXT`/`env.LIMITER` 才有类型。
+pool-workers 0.18/vitest4 中 `cloudflare:test` 的 `env` 类型是全局 `Cloudflare.Env`(旧版是 `ProvidedEnv`)。需要三斜线引用把 `cloudflare:test` 模块声明带给 tsc,并用我们的 `Env` 承接全局 `Cloudflare.Env`,`env.CONTEXT`/`env.LIMITER` 才有类型。
 Create `src/test-env.d.ts`:
 ```ts
-import type { Env } from './worker/env';
+/// <reference types="@cloudflare/vitest-pool-workers/types" />
+import type { Env as WorkerEnv } from './worker/env';
 
-declare module 'cloudflare:test' {
-  interface ProvidedEnv extends Env {}
+declare global {
+  namespace Cloudflare {
+    interface Env extends WorkerEnv {}
+  }
 }
 ```
-(`tsconfig.json` 的 `include: ["src"]` 已覆盖该文件,全体集成测试共享此增强。)
+(`tsconfig.json` 的 `include: ["src"]` 已覆盖该文件,全体集成测试共享此增强。若装到旧版 pool-workers,`env` 为 `ProvidedEnv`,改用 `declare module 'cloudflare:test' { interface ProvidedEnv extends Env {} }`。)
 
 - [ ] **Step 6: 跑测试**
 
