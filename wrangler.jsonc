@@ -11,11 +11,13 @@
   },
   "durable_objects": {
     "bindings": [
-      { "name": "CONTEXT", "class_name": "GenerationContext" }
+      { "name": "CONTEXT", "class_name": "GenerationContext" },
+      { "name": "LIMITER", "class_name": "RateLimiter" }
     ]
   },
   "migrations": [
-    { "tag": "v1", "new_sqlite_classes": ["GenerationContext"] }
+    { "tag": "v1", "new_sqlite_classes": ["GenerationContext"] },
+    { "tag": "v2", "new_sqlite_classes": ["RateLimiter"] }
   ],
   "observability": { "enabled": true },
   "vars": {

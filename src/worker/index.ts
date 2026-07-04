@@ -1,4 +1,5 @@
 export { GenerationContext } from './context-do';
+export { RateLimiter } from './limiter-do';
 
 export default {
   async fetch(request: Request): Promise<Response> {
