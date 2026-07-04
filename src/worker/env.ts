@@ -6,10 +6,9 @@ export interface Env {
   GEMINI_API_KEY: string;
   GEMINI_MODEL: string;
   DAILY_BUDGET: string;
-  WEBSHARE_PROXY_HOST: string;
-  WEBSHARE_PROXY_PORT: string;
   WEBSHARE_PROXY_USERNAME: string;
   WEBSHARE_PROXY_PASSWORD: string;
+  WEBSHARE_PROXIES: string;
   CONTEXT: DurableObjectNamespace<GenerationContext>;
   LIMITER: DurableObjectNamespace<RateLimiter>;
 }
