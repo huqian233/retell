@@ -9,6 +9,14 @@
     "not_found_handling": "single-page-application",
     "binding": "ASSETS"
   },
+  "durable_objects": {
+    "bindings": [
+      { "name": "CONTEXT", "class_name": "GenerationContext" }
+    ]
+  },
+  "migrations": [
+    { "tag": "v1", "new_sqlite_classes": ["GenerationContext"] }
+  ],
   "observability": { "enabled": true },
   "vars": {
     "GEMINI_MODEL": "gemini-2.5-flash",
