@@ -3,6 +3,7 @@ import type { Services } from './services';
 import type { GenerateRequest, StreamEvent } from '../shared/protocol';
 import { AppError, toStreamError, errorResponse } from './errors';
 import { parseArticle } from '../shared/chapters';
+import { enforceIp, enforceBudget, clientIp } from './limits';
 
 export async function handleGenerate(
   request: Request,
@@ -19,6 +20,13 @@ export async function handleGenerate(
   if (!body || typeof body.url !== 'string') return errorResponse(new AppError('INVALID_REQUEST'));
   if (body.requirements != null && (typeof body.requirements !== 'string' || body.requirements.length > 500)) {
     return errorResponse(new AppError('INVALID_REQUEST'));
+  }
+
+  try {
+    await enforceIp(env, clientIp(request), 'generate');
+    await enforceBudget(env);
+  } catch (e) {
+    return errorResponse(e);
   }
 
   const contextId = crypto.randomUUID();
