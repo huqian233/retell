@@ -126,7 +126,7 @@ Run:
 cd F:/youtube
 npm init -y
 npm i react react-dom
-npm i -D typescript vite @vitejs/plugin-react @cloudflare/vite-plugin wrangler @cloudflare/workers-types
+npm i -D typescript vite @vitejs/plugin-react @cloudflare/vite-plugin wrangler @cloudflare/workers-types @types/react @types/react-dom
 ```
 说明:版本用安装当天最新;`package-lock.json` 提交以锁定。运行时依赖(ai/@ai-sdk/google/zod/react-markdown)在对应任务再装,保持每步最小。
 
@@ -532,24 +532,23 @@ describe('errors', () => {
 
 - [ ] **Step 3: vitest 配置(workers pool)**
 
-Create `vitest.config.ts`:
-```ts
-import { defineWorkersConfig } from '@cloudflare/vitest-pool-workers/config';
+Run: `npm i -D @cloudflare/vitest-pool-workers vitest`
 
-export default defineWorkersConfig({
-  test: {
-    poolOptions: {
-      workers: {
-        wrangler: { configPath: './wrangler.jsonc' },
-        miniflare: {
-          compatibilityFlags: ['nodejs_compat'],
-        },
-      },
-    },
-  },
+Create `vitest.config.ts`(**注意 API**:pool-workers 0.18+/vitest 4 已移除旧的 `@cloudflare/vitest-pool-workers/config` 与 `defineWorkersConfig`;新写法是把 workers 选项作为 `cloudflareTest()` 插件参数放进 `plugins`):
+```ts
+import { defineConfig } from 'vitest/config';
+import { cloudflareTest } from '@cloudflare/vitest-pool-workers';
+
+export default defineConfig({
+  plugins: [
+    cloudflareTest({
+      wrangler: { configPath: './wrangler.jsonc' },
+      miniflare: { compatibilityFlags: ['nodejs_compat'] },
+    }),
+  ],
 });
 ```
-Run: `npm i -D @cloudflare/vitest-pool-workers vitest`
+(若装到的是旧版 pool-workers,`npm test` 报 `Missing "./config" specifier` 即版本差异——以实际安装版本的导出为准。)
 
 - [ ] **Step 4: 跑测试看失败**
 
