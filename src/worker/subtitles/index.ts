@@ -1,8 +1,7 @@
 import type { Env } from '../env';
 import { AppError } from '../errors';
-import { proxiesFromEnv, type ProxyConfig } from '../../proxy/client';
-import { fetchPlayer, fetchTimedTextJson, chooseTrack } from './innertube';
-import { parseTimedText } from './timedtext';
+import { fetchViaSupadata } from './supadata';
+import { fetchOembed } from './oembed';
 import { BUNDLED } from './bundled';
 
 export interface TranscriptResult {
@@ -31,37 +30,19 @@ export function resolveVideoId(input: string): string | null {
   return m ? valid(m[2]!) : null;
 }
 
-// 依次换代理重试同一请求(最多 3 次)。业务错误(NO_CAPTIONS/VIDEO_NOT_FOUND)立即抛,
-// 只对 YOUTUBE_BLOCKED 换端点再试;用尽仍拦则如实抛 YOUTUBE_BLOCKED。
-async function withProxyRetry<T>(proxies: ProxyConfig[], fn: (p: ProxyConfig) => Promise<T>): Promise<T> {
-  let last: unknown;
-  const attempts = Math.min(proxies.length, 3);
-  for (let i = 0; i < attempts; i++) {
-    try {
-      return await fn(proxies[i]!);
-    } catch (e) {
-      if (e instanceof AppError && e.code !== 'YOUTUBE_BLOCKED') throw e;
-      last = e;
-    }
-  }
-  throw last instanceof AppError ? last : new AppError('YOUTUBE_BLOCKED');
-}
-
 export async function getTranscript(url: string, env: Env): Promise<TranscriptResult> {
   const videoId = resolveVideoId(url);
   if (!videoId) throw new AppError('INVALID_REQUEST');
 
+  // 演示视频:预热缓存,零外部依赖,永远稳定。
   const bundled = BUNDLED[videoId];
   if (bundled && bundled.transcript.trim()) return { ...bundled, source: 'bundled' };
 
-  const proxies = proxiesFromEnv(env);
-  if (!proxies.length) throw new AppError('YOUTUBE_BLOCKED');
-
-  const player = await withProxyRetry(proxies, (p) => fetchPlayer(videoId, p));
-  const track = chooseTrack(player.tracks);
-  const json = await withProxyRetry(proxies, (p) => fetchTimedTextJson(track.baseUrl, p));
-  const transcript = parseTimedText(json);
-  if (!transcript.trim()) throw new AppError('NO_CAPTIONS');
-
-  return { videoId, title: player.title, author: player.author, transcript, source: 'live' };
+  // 其他视频:字幕经 Supadata 实时抓取(它在后台处理住宅代理与 PO Token);
+  // 标题/作者用无需鉴权的 oEmbed 补齐。两者并发;字幕失败即如实抛错,绝不伪造。
+  const [transcript, meta] = await Promise.all([
+    fetchViaSupadata(`https://www.youtube.com/watch?v=${videoId}`, env),
+    fetchOembed(videoId),
+  ]);
+  return { videoId, title: meta.title, author: meta.author, transcript, source: 'live' };
 }

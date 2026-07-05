@@ -1,3 +1,6 @@
+// ⚠️ 首个方案:在 Worker 内用 webshare 代理 + 裸 TCP socket 直连 YouTube InnerTube。
+// 2026 年实测撞上 PO Token / BotGuard 墙(详见 docs/youtube-subtitle-investigation.md),
+// 已由 subtitles/supadata.ts 取代。此模块保留、单测仍绿,作为"实现→诊断→取舍"的工程佐证。
 import { proxyFetch, type ProxyConfig } from '../../proxy/client';
 import { AppError } from '../errors';
 import { INNERTUBE_CLIENT, PLAYER_PATH, INNERTUBE_UA } from './innertube-config';

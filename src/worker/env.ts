@@ -6,6 +6,8 @@ export interface Env {
   GEMINI_API_KEY: string;
   GEMINI_MODEL: string;
   DAILY_BUDGET: string;
+  SUPADATA_API_KEY: string;
+  // 首个方案(webshare 代理)遗留;字幕现走 Supadata,以下保留作调查佐证。
   WEBSHARE_PROXY_USERNAME: string;
   WEBSHARE_PROXY_PASSWORD: string;
   WEBSHARE_PROXIES: string;
