@@ -5,3 +5,6 @@ dist/
 *.log
 .claude/
 skills-lock.json
+
+# 工作/参考文件(演示字幕原始转录,已处理进 bundled-data.json)
+字幕.txt

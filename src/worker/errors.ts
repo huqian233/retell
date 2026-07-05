@@ -25,7 +25,7 @@ export const USER_MESSAGE: Record<ErrorCode, string> = {
   INVALID_REQUEST: '链接无效,请检查是否为有效的 YouTube 视频链接。',
   VIDEO_NOT_FOUND: '找不到该视频,可能已被删除或设为私享。',
   NO_CAPTIONS: '该视频没有字幕,请换一个有字幕的视频。',
-  YOUTUBE_BLOCKED: '连续尝试后仍被 YouTube 拦截,请稍后再试。',
+  YOUTUBE_BLOCKED: 'YouTube 要求登录态才能取该视频字幕:2026 年数据中心/代理 IP 普遍被拦(非临时故障),免费手段无法绕过;可改用页面上的演示视频体验完整流程。',
   UPSTREAM_RATE_LIMIT: 'Gemini 额度紧张,请稍后再试。',
   RATE_LIMITED: '操作太频繁,请稍候再试。',
   BUDGET_EXHAUSTED: '今日演示额度已用尽,明日恢复。',
