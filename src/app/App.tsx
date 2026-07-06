@@ -12,8 +12,13 @@ export function App() {
   return (
     <main className="app">
       <header className="masthead">
-        <h1>Retell</h1>
-        <p>把有字幕的 YouTube 视频,转述成一篇排版清晰的中文文章。</p>
+        <div className="brand">
+          <span className="brand-mark" aria-hidden="true" />
+          <h1>Retell</h1>
+        </div>
+        <p>
+          把有字幕的 YouTube 视频,转述成一篇排版清晰的<em>中文文章</em>。
+        </p>
       </header>
 
       <HeroForm onSubmit={generate} disabled={busy} />

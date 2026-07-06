@@ -15,7 +15,13 @@ export function HeroForm({ onSubmit, disabled }: { onSubmit: (url: string, requi
     >
       <div className="row">
         <label htmlFor="url">YouTube 视频链接</label>
-        <input id="url" type="url" placeholder="https://www.youtube.com/watch?v=…" value={url} onChange={(e) => setUrl(e.target.value)} required />
+        <div className="field">
+          <svg className="field-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
+            <path d="M6.7 9.3a3 3 0 0 0 4.2 0l2.3-2.3a3 3 0 1 0-4.2-4.2L7.8 4" />
+            <path d="M9.3 6.7a3 3 0 0 0-4.2 0L2.8 9a3 3 0 1 0 4.2 4.2L8.2 12" />
+          </svg>
+          <input id="url" type="url" placeholder="https://www.youtube.com/watch?v=…" value={url} onChange={(e) => setUrl(e.target.value)} required />
+        </div>
       </div>
       <div className="row">
         <label htmlFor="req">生成要求(可选:任务类型 / 风格 / 受众 / 约束)</label>
@@ -23,7 +29,14 @@ export function HeroForm({ onSubmit, disabled }: { onSubmit: (url: string, requi
       </div>
       <div className="hero-actions">
         <button className="primary" type="submit" disabled={disabled}>
-          {disabled ? '生成中…' : '生成文章'}
+          {disabled ? (
+            <>
+              <span className="spinner" aria-hidden="true" />
+              生成中…
+            </>
+          ) : (
+            '生成文章'
+          )}
         </button>
         <button className="chip" type="button" onClick={() => setUrl(SAMPLE)} disabled={disabled}>
           用演示视频试试

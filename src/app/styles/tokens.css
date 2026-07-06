@@ -1,22 +1,37 @@
 :root {
-  --bg: #ffffff;
-  --fg: #171717;
-  --muted: #666666;
-  --border: #eaeaea;
-  --card: #fafafa;
-  --accent: #0070f3;
+  --bg: #fafafa;
+  --surface: #ffffff;
+  --fg: #18181b;
+  --muted: #6f6f78;
+  --border: rgba(17, 17, 20, 0.09);
+  --border-strong: rgba(17, 17, 20, 0.16);
+  --card: #ffffff;
+  --accent: #5b5bd6;
+  --accent-2: #9553e9;
+  --accent-soft: rgba(91, 91, 214, 0.1);
+  --gradient-accent: linear-gradient(135deg, #4f7cf7 0%, #7b5bd6 55%, #b04fd9 100%);
   --danger: #e5484d;
-  --radius: 8px;
+  --shadow-card: 0 1px 2px rgba(24, 24, 27, 0.04), 0 12px 32px -16px rgba(24, 24, 27, 0.16);
+  --shadow-btn: 0 1px 2px rgba(24, 24, 27, 0.12), 0 6px 16px -8px rgba(91, 91, 214, 0.5);
+  --radius: 16px;
+  --radius-sm: 10px;
   --maxw: 720px;
   --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
   --font-mono: 'Geist Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #000000;
-    --fg: #ededed;
-    --muted: #8f8f8f;
-    --border: #2a2a2a;
-    --card: #0e0e0e;
+    --bg: #0a0a0c;
+    --surface: #131316;
+    --fg: #f4f4f5;
+    --muted: #9d9da7;
+    --border: rgba(244, 244, 245, 0.09);
+    --border-strong: rgba(244, 244, 245, 0.18);
+    --card: #131316;
+    --accent: #7b7bec;
+    --accent-2: #a86ef5;
+    --accent-soft: rgba(123, 123, 236, 0.16);
+    --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4), 0 16px 40px -16px rgba(0, 0, 0, 0.6);
+    --shadow-btn: 0 1px 2px rgba(0, 0, 0, 0.4), 0 6px 16px -8px rgba(123, 123, 236, 0.55);
   }
 }

@@ -16,7 +16,12 @@ export function StatusBar({ meta, status }: { meta: Meta; status: Status }) {
       <span className={`badge ${meta.subtitleSource}`}>
         {meta.subtitleSource === 'bundled' ? '字幕来源:内置样本' : '字幕来源:实时抓取'}
       </span>
-      {PHASE[status] && <span>· {PHASE[status]}</span>}
+      {PHASE[status] && (
+        <span className={`phase${status === 'done' ? ' done' : ''}`}>
+          {(status === 'fetching' || status === 'streaming') && <span className="pulse-dot" aria-hidden="true" />}
+          {PHASE[status]}
+        </span>
+      )}
     </div>
   );
 }

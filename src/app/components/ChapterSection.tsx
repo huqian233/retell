@@ -17,7 +17,10 @@ export const ChapterSection = memo(
     return (
       <section>
         <h2 className="chapter-title">
-          <span>{chapter.title}</span>
+          <span className="chapter-no" aria-hidden="true">
+            {String(index + 1).padStart(2, '0')}
+          </span>
+          <span className="chapter-text">{chapter.title}</span>
           <button className="wh-btn" disabled={!canWH || !onRequestWH || wh?.status === 'loading'} onClick={() => onRequestWH?.(index)}>
             5W1H
           </button>
