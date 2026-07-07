@@ -15,14 +15,11 @@
       { "name": "LIMITER", "class_name": "RateLimiter" }
     ]
   },
-  // 线上 retell Worker 由早期原型部署,迁移标签已停在 v3 且只有 SessionDO 一个 DO 类;
-  // v3 在此仅作锚点占位,v4 才是真实迁移:创建当前两个 DO 类并删除遗留的 SessionDO。
-  // 若换新 Worker 名字全新部署,请把 migrations 重置为单条 new_sqlite_classes 迁移。
+  // 线上 retell Worker 已于 2026-07-06 完成 v4 迁移(删除早期原型遗留的 SessionDO,
+  // 建立当前两个 DO 类)。此处只保留 v4 一条:线上标签匹配即跳过,全新环境(如本地测试)
+  // 从零应用也能干净通过。后续迁移从 v5 起追加。
   "migrations": [
-    { "tag": "v1", "new_sqlite_classes": ["GenerationContext"] },
-    { "tag": "v2", "new_sqlite_classes": ["RateLimiter"] },
-    { "tag": "v3", "deleted_classes": ["SessionDO"] },
-    { "tag": "v4", "new_sqlite_classes": ["GenerationContext", "RateLimiter"], "deleted_classes": ["SessionDO"] }
+    { "tag": "v4", "new_sqlite_classes": ["GenerationContext", "RateLimiter"] }
   ],
   "observability": { "enabled": true },
   "vars": {
