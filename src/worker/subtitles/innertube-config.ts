@@ -1,5 +1,5 @@
-// 由实测确认(见 docs/youtube-subtitle-investigation.md)。ANDROID_VR 是 2026 年
-// 对无登录态请求最宽松的客户端标识;真值可随 YouTube 漂移调整,导出名不变。
+// 客户端标识由实测选定,但不同轮次实测里最优客户端会漂移(IOS/ANDROID_VR 各有
+// 表现最好的时候,见 docs/youtube-subtitle-investigation.md §1);真值可随时调整,导出名不变。
 export const INNERTUBE_CLIENT = {
   clientName: 'ANDROID_VR',
   clientVersion: '1.61.48',
